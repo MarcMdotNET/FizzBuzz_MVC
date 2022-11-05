@@ -12,10 +12,21 @@ namespace FizzBuzz_MVC.Controllers
         {
             _logger = logger;
         }
-
+        
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult FizzBuzzPage()
+        {
+            FizzBuzz model = new FizzBuzz();
+
+            model.FizzValue = 3;
+            model.BuzzValue = 5;
+
+            return View(model);
         }
 
         public IActionResult Privacy()
