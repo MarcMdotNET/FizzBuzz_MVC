@@ -12,7 +12,7 @@ namespace FizzBuzz_MVC.Controllers
         {
             _logger = logger;
         }
-        
+
         public IActionResult Index()
         {
             return View();
@@ -21,12 +21,29 @@ namespace FizzBuzz_MVC.Controllers
         [HttpGet]
         public IActionResult FizzBuzzPage()
         {
-            FizzBuzz model = new FizzBuzz();
+            FizzBuzz fbModel = new FizzBuzz();
 
-            model.FizzValue = 3;
-            model.BuzzValue = 5;
+            return View(fbModel);
+        }
 
-            return View(model);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult FizzBuzzPage(FizzBuzz fbModel)
+        {
+            for (int fbNumber = fbModel.StartRange; fbNumber <= fbModel.EndRange; fbNumber++)
+            {
+                // true if fbNumber is divisible by FizzValue
+                bool isFizz = fbNumber % fbModel.FizzValue == 0;
+                
+                // true if fbNumber is divisible by BuzzValue
+                bool isBuzz = fbNumber % fbModel.BuzzValue == 0;
+                
+                // Ternary operator to determine if fbNumber is divisible by both FizzValue and BuzzValue, FizzValue, BuzzValue,
+                // or neither FizzValue nor BuzzValue and add the appropriate string to the Results list in the FizzBuzz model object fbModel.
+                fbModel.Results.Add(isFizz && isBuzz ? "FizzBuzz" : isFizz ? "Fizz" : isBuzz ? "Buzz" : fbNumber.ToString());
+            }
+
+            return View(fbModel);
         }
 
         public IActionResult Privacy()

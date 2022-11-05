@@ -1,6 +1,6 @@
-﻿@model FizzBuzz_MVC.Models.FizzBuzz
+﻿@model FizzBuzz_MVC.Models.FizzBuzz // This is the model that we are passing to the view.
 @{
-    ViewData["Title"] = "Fizz Buzz";
+    ViewData["Title"] = "Fizz Buzz"; // This is the title of the page.
 }
 
 <div class="row gy-2 h-100">
@@ -27,27 +27,55 @@
                     <div class="col col-md-3 mb-2">
                         <h5>Enter numbers</h5>
                         <form asp-controller="Home" asp-action="FizzBuzzPage" method="post">
-                            @* CODE here *@
+                            <div class="form-group">
+                                <label asp-for="FizzValue">Fizz Value</label>
+                                <input type="number" min="1" asp-for="FizzValue" class="form-control" placeholder="Enter Fizz Value" required />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="BuzzValue">Buzz Value</label>
+                                <input type="number" min="1" asp-for="BuzzValue" class="form-control" placeholder="Enter Buzz Value" required />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="StartRange">Start Range</label>
+                                <input type="number" asp-for="StartRange" class="form-control" placeholder="Start Range Value" required />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="EndRange">End Range</label>
+                                <input type="number" asp-for="EndRange" class="form-control" placeholder="End Range Value" required />
+                            </div>
+                            <div class="form-group mt-3">
+                                <button type="submit" class="btn btn-dark">Submit</button>
+                            </div>
                         </form>
                     </div>
                     <div class="col">
                         <h2 class="mt-5 border-bottom border-2">Results</h2>
                         <div class="table-responsive">
-
-                            @* CODE here *@
-
-                            <table class="table-striped table-hover table table-dark">
-                                <thead>
-                                    <tr>
-                                        <th colspan="10">Fizz Buzz Results</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @* CODE here *@
-                                </tbody>
-                            </table>
-
-                            @* CODE here *@
+                            @if (Model.Results.Count > 0) // If the model has results, then we will display them.
+                            {
+                                <table class="table-striped table-hover table table-dark">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="10">Fizz Buzz Results</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int rowNumber = 0; rowNumber < (Model.Results.Count() / 10 + 1); rowNumber++) // This will loop through the results and display them in a table.
+                                        {
+                                            <tr>
+                                                @for (int colNumber = 0; colNumber < 10; colNumber++)
+                                                {
+                                                    int itemNumber = rowNumber * 10 + colNumber; // This will determine the item number in the list.
+                                                    if (itemNumber < Model.Results.Count())
+                                                    {
+                                                        <td data-color-code="@(Model.Results[itemNumber].ToString().ToLower())">@Model.Results[itemNumber]</td>
+                                                    }
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
                         </div>
                     </div>
                 </div>
